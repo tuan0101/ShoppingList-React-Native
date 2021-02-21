@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Alert } from 'react-native';
 import Header from './components/Header';
 import ListItem from './components/ListItem';
 import AddItem from './components/AddItem';
@@ -20,9 +20,23 @@ function App() {
   ]);
 
   const addItem = (item) => {
-    setItems(prevItems => {
-      return [{id: uuidv4(), text:item}, ...prevItems];
-    });
+    if(!item){
+      Alert.alert(
+        'Error', 
+        'Please add a non-empty item', 
+        [
+          {
+            text: 'Understood',
+            style: 'cancel',
+          },
+        ],
+        {cancelable: true},
+      );
+    } else {
+      setItems(prevItems => {
+        return [{id: uuidv4(), text:item}, ...prevItems];
+      });
+    }
   }
 
   const deleteItem = (id) => {
