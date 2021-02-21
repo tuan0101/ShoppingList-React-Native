@@ -1,18 +1,35 @@
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 function ListItem({
   item,
-  isEditing, editItemDetail, editItem, saveEditItem,
+  isEditing, editItemDetail, editItem, saveEditItem, checkedItems, handleEditChange,
   deleteItem
 }) {
+
+  const checked = checkedItems.filter(
+    checkedItem => checkedItem.id === item.id,
+  );
 
   return (
     <TouchableOpacity style={styles.listItem}>
       <View style={styles.listItemView}>
-
-
+        {isEditing && editItemDetail.id === item.id ? (
+          <TextInput
+            placeholder="Edit Item..."
+            style={styles.editItemInput}
+            onChangeText={handleEditChange}
+          />
+        ) : (
+            <Text
+              //onPress={() => itemChecked(item.id, item.text)}
+              style={
+                checked.length ? styles.checkedItemText : styles.listItemText
+              }>
+              {item.text}
+            </Text>
+        )}
         <Text style={styles.listItemText}>{item.text}</Text>
         <View style={styles.iconView}>
           {isEditing && editItemDetail.id === item.id ? (

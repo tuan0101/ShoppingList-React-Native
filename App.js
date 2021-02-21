@@ -18,15 +18,15 @@ function App() {
     { id: uuidv4(), text: 'Bread' },
     { id: uuidv4(), text: 'Juice' },
   ]);
-
   // Flag true if user is currently editing an item
   const [editStatus, setEditStatus] = useState(false);
-
   // State to capture information about the item being edited
   const [editItemDetail, setEditItemDetail] = useState({
     id: null,
     text: null,
   });
+  const [checkedItems, checkedItemChange] = useState([]);
+
 
   const addItem = (item) => {
     if (!item) {
@@ -66,6 +66,10 @@ function App() {
     setEditStatus(!editStatus);
   };
 
+  const handleEditChange = text => {
+    setEditItemDetail({id: editItemDetail.id, text});
+  };
+
   const deleteItem = (id) => {
     setItems(prevItems => {
       return prevItems.filter(item => item.id != id);
@@ -83,6 +87,8 @@ function App() {
           editItemDetail={editItemDetail}
           editItem={editItem}
           saveEditItem={saveEditItem}
+          handleEditChange={handleEditChange}
+          checkedItems={checkedItems}
           deleteItem={deleteItem}
         />
       )} />
