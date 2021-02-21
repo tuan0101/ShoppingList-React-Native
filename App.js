@@ -70,6 +70,19 @@ function App() {
     setEditItemDetail({id: editItemDetail.id, text});
   };
 
+  const itemIsChecked = (id, text) => {
+    const isChecked = checkedItems.filter(checkedItem => checkedItem.id === id);
+    isChecked.length
+      ? // remove item from checked items state (uncheck)
+        checkedItemChange(prevItems => {
+          return [...prevItems.filter(item => item.id !== id)];
+        })
+      : // Add item to checked items state
+        checkedItemChange(prevItems => {
+          return [...prevItems.filter(item => item.id !== id), {id, text}];
+        });
+  };
+
   const deleteItem = (id) => {
     setItems(prevItems => {
       return prevItems.filter(item => item.id != id);
@@ -89,6 +102,7 @@ function App() {
           saveEditItem={saveEditItem}
           handleEditChange={handleEditChange}
           checkedItems={checkedItems}
+          itemIsChecked={itemIsChecked}
           deleteItem={deleteItem}
         />
       )} />

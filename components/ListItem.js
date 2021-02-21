@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 function ListItem({
   item,
-  isEditing, editItemDetail, editItem, saveEditItem, checkedItems, handleEditChange,
+  isEditing, editItemDetail, editItem, saveEditItem, checkedItems, handleEditChange, itemIsChecked,
   deleteItem
 }) {
 
@@ -23,14 +23,13 @@ function ListItem({
           />
         ) : (
             <Text
-              //onPress={() => itemChecked(item.id, item.text)}
+              onPress={() => itemIsChecked(item.id, item.text)}
               style={
                 checked.length ? styles.checkedItemText : styles.listItemText
               }>
               {item.text}
             </Text>
         )}
-        <Text style={styles.listItemText}>{item.text}</Text>
         <View style={styles.iconView}>
           {isEditing && editItemDetail.id === item.id ? (
             <Icon
@@ -63,20 +62,30 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: '#f8f8f8',
     borderBottomWidth: 1,
-    borderColor: '#eee'
+    borderColor: '#eee',
   },
   listItemView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   listItemText: {
+    color: 'black',
     fontSize: 18,
+  },
+  checkedItemText: {
+    fontSize: 18,
+    textDecorationLine: 'line-through',
+    color: 'green',
   },
   iconView: {
     flexDirection: 'row',
     marginLeft: 'auto',
-    width: 30,
+    width: 70,
+  },
+  editItemInput: {
+    padding: 0,
+    fontSize: 18,
   },
 })
 
