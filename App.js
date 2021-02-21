@@ -48,6 +48,24 @@ function App() {
     }
   }
 
+  // Capture the current id and text on click edit
+  const editItem = (id, text) => {
+    setEditItemDetail({ id, text });
+    setEditStatus(!editStatus);
+  }
+
+  // Submit the changes
+  const saveEditItem = (id, text) => {
+    setItems(prevItems => {
+      return prevItems.map(item =>
+        item.id===editItemDetail.id ? {id, text: editItemDetail.text} : item
+      );
+    });
+
+    // Flip edit status back to false
+    setEditStatus(!editStatus);
+  };
+
   const deleteItem = (id) => {
     setItems(prevItems => {
       return prevItems.filter(item => item.id != id);
@@ -59,11 +77,13 @@ function App() {
       <Header title='Shopping List' />
       <AddItem addItem={addItem} />
       <FlatList data={items} renderItem={({ item }) => (
-        <ListItem 
-          item={item} 
+        <ListItem
+          item={item}
           isEditing={editStatus}
           editItemDetail={editItemDetail}
-          deleteItem={deleteItem} 
+          editItem={editItem}
+          saveEditItem={saveEditItem}
+          deleteItem={deleteItem}
         />
       )} />
     </View>
