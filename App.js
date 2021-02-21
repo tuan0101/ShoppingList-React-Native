@@ -19,22 +19,31 @@ function App() {
     { id: uuidv4(), text: 'Juice' },
   ]);
 
+  // Flag true if user is currently editing an item
+  const [editStatus, setEditStatus] = useState(false);
+
+  // State to capture information about the item being edited
+  const [editItemDetail, setEditItemDetail] = useState({
+    id: null,
+    text: null,
+  });
+
   const addItem = (item) => {
-    if(!item){
+    if (!item) {
       Alert.alert(
-        'Error', 
-        'Please add a non-empty item', 
+        'No item entererd',
+        'Please add a non-empty item',
         [
           {
             text: 'Understood',
             style: 'cancel',
           },
         ],
-        {cancelable: true},
+        { cancelable: true },
       );
     } else {
       setItems(prevItems => {
-        return [{id: uuidv4(), text:item}, ...prevItems];
+        return [{ id: uuidv4(), text: item }, ...prevItems];
       });
     }
   }
@@ -48,9 +57,14 @@ function App() {
   return (
     <View style={styles.container}>
       <Header title='Shopping List' />
-      <AddItem addItem={addItem}/>
+      <AddItem addItem={addItem} />
       <FlatList data={items} renderItem={({ item }) => (
-        <ListItem item={item} deleteItem={deleteItem}/>
+        <ListItem 
+          item={item} 
+          isEditing={editStatus}
+          editItemDetail={editItemDetail}
+          deleteItem={deleteItem} 
+        />
       )} />
     </View>
   )
